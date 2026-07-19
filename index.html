@@ -164,6 +164,8 @@
     let escanerQr = null;
     let escanerActivo = false;
     let qrProcesado = false;
+    const URL_APPS_SCRIPT =
+  "https://script.google.com/macros/s/AKfycbzt8cODEG3Yivg_-RT9CegcHFc3mpJGwX9aOnJQ1OIiqBQxfwAHtcwb3TljtxLQBdH0/exec";
 
     const parametros =
       new URLSearchParams(
@@ -294,37 +296,192 @@
     }
 
 
-    async function procesarQrDetectado(
+async function procesarQrDetectado(
+  contenidoQr
+) {
+
+  contenidoQr =
+    String(
+      contenidoQr || ""
+    ).trim();
+
+
+  if (
+    !contenidoQr ||
+    qrProcesado
+  ) {
+
+    return;
+
+  }
+
+
+  qrProcesado = true;
+
+
+  mostrarEstado(
+    "QR detectado. Confirmando asistencia...",
+    "aviso"
+  );
+
+
+  await detenerEscaner();
+
+
+  try {
+
+    const datosEnvio =
+      new URLSearchParams();
+
+
+    datosEnvio.append(
+      "accion",
+      "registrar_asistencia_qr"
+    );
+
+
+    datosEnvio.append(
+      "tokenQr",
+      tokenQr
+    );
+
+
+    datosEnvio.append(
+      "tipo",
+      tipoRegistro
+    );
+
+
+    datosEnvio.append(
+      "contenidoQr",
       contenidoQr
-    ) {
+    );
 
-      contenidoQr =
-        String(
-          contenidoQr || ""
-        ).trim();
 
-      if (
-        !contenidoQr ||
-        qrProcesado
-      ) {
-        return;
-      }
+    const respuesta =
+      await fetch(
 
-      qrProcesado = true;
+        URL_APPS_SCRIPT,
 
-      mostrarEstado(
-        "QR detectado correctamente.",
-        "exito"
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+
+          body:
+            datosEnvio.toString(),
+
+          redirect:
+            "follow"
+        }
+
       );
 
-      await detenerEscaner();
 
-      mostrarEstado(
-        "Lectura correcta: " + contenidoQr,
-        "exito"
+    if (!respuesta.ok) {
+
+      throw new Error(
+        "El servidor respondió con estado " +
+        respuesta.status +
+        "."
       );
 
     }
+
+
+    const textoRespuesta =
+      await respuesta.text();
+
+
+    let resultado;
+
+
+    try {
+
+      resultado =
+        JSON.parse(
+          textoRespuesta
+        );
+
+    }
+    catch (error) {
+
+      throw new Error(
+        "La respuesta del servidor no es válida."
+      );
+
+    }
+
+
+    if (
+      !resultado ||
+      !resultado.valido
+    ) {
+
+      mostrarEstado(
+
+        resultado &&
+        resultado.mensaje
+
+          ? resultado.mensaje
+
+          : "No fue posible registrar la asistencia.",
+
+        "error"
+
+      );
+
+      return;
+
+    }
+
+
+    mostrarEstado(
+
+      resultado.mensaje ||
+      (
+        tipoRegistro === "INGRESO"
+
+          ? "Ingreso registrado correctamente."
+
+          : "Salida registrada correctamente."
+      ),
+
+      "exito"
+
+    );
+
+  }
+  catch (error) {
+
+    console.error(
+      "Error al enviar el registro:",
+      error
+    );
+
+
+    mostrarEstado(
+
+      "No fue posible comunicarse con SIGEI: " +
+      (
+        error &&
+        error.message
+
+          ? error.message
+
+          : String(error)
+      ),
+
+      "error"
+
+    );
+
+  }
+
+}
 
 
     async function iniciarEscaner() {
