@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Escáner QR SIGEI</title>
+
+  <script
+    src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"
+  ></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .tarjeta {
+      background: #111827;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      text-align: center;
+      font-size: 25px;
+    }
+
+    .subtitulo {
+      margin: 0 0 18px;
+      text-align: center;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    #lectorQr {
+      width: 100%;
+      min-height: 260px;
+      margin: 16px auto;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #000000;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #22c55e;
+      color: #052e16;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .estado,
+    .datos {
+      margin-top: 16px;
+      padding: 13px;
+      border-radius: 12px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .datos {
+      background: #1e293b;
+      color: #cbd5e1;
+    }
+
+    .datos strong {
+      color: #ffffff;
+    }
+
+    .estado.info {
+      background: #1e3a5f;
+    }
+
+    .estado.exito {
+      background: #14532d;
+    }
+
+    .estado.error {
+      background: #7f1d1d;
+    }
+
+    .estado.aviso {
+      background: #78350f;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <main class="contenedor">
+
+    <section class="tarjeta">
+
+      <h1>Escáner QR SIGEI</h1>
+
+      <p class="subtitulo">
+        Active la cámara y acerque el código QR institucional al recuadro.
+      </p>
+
+      <div
+        id="datosSolicitud"
+        class="datos"
+      >
+        Verificando acceso temporal...
+      </div>
+
+      <div id="lectorQr"></div>
+
+      <button
+        id="botonActivar"
+        type="button"
+      >
+        Activar cámara
+      </button>
+
+      <div
+        id="estadoEscaner"
+        class="estado info"
+      >
+        Pulse “Activar cámara” para iniciar.
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    let escanerQr = null;
+    let escanerActivo = false;
+    let qrProcesado = false;
+
+    const parametros =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const tokenQr =
+      String(
+        parametros.get("token") || ""
+      ).trim();
+
+    const tipoRegistro =
+      String(
+        parametros.get("tipo") || ""
+      )
+        .trim()
+        .toUpperCase();
+
+
+    function mostrarEstado(
+      mensaje,
+      tipo
+    ) {
+
+      const elemento =
+        document.getElementById(
+          "estadoEscaner"
+        );
+
+      elemento.textContent =
+        mensaje;
+
+      elemento.className =
+        "estado " + (tipo || "info");
+
+    }
+
+
+    function validarParametros() {
+
+      const elemento =
+        document.getElementById(
+          "datosSolicitud"
+        );
+
+      if (!tokenQr) {
+
+        elemento.innerHTML =
+          "<strong>Error:</strong> no se recibió el token temporal.";
+
+        mostrarEstado(
+          "Enlace de acceso incompleto.",
+          "error"
+        );
+
+        return false;
+
+      }
+
+      if (
+        tipoRegistro !== "INGRESO" &&
+        tipoRegistro !== "SALIDA"
+      ) {
+
+        elemento.innerHTML =
+          "<strong>Error:</strong> el tipo de operación no es válido.";
+
+        mostrarEstado(
+          "Enlace de acceso inválido.",
+          "error"
+        );
+
+        return false;
+
+      }
+
+      elemento.innerHTML =
+        "<strong>Operación:</strong> " +
+        tipoRegistro +
+        "<br>" +
+        "<strong>Acceso temporal:</strong> recibido";
+
+      return true;
+
+    }
+
+
+    async function detenerEscaner() {
+
+      if (!escanerQr) {
+        escanerActivo = false;
+        return;
+      }
+
+      try {
+
+        if (escanerActivo) {
+          await escanerQr.stop();
+        }
+
+      }
+      catch (error) {
+
+        console.warn(
+          "No se pudo detener el escáner:",
+          error
+        );
+
+      }
+
+      try {
+
+        await escanerQr.clear();
+
+      }
+      catch (error) {
+
+        console.warn(
+          "No se pudo limpiar el escáner:",
+          error
+        );
+
+      }
+
+      escanerQr = null;
+      escanerActivo = false;
+
+    }
+
+
+    async function procesarQrDetectado(
+      contenidoQr
+    ) {
+
+      contenidoQr =
+        String(
+          contenidoQr || ""
+        ).trim();
+
+      if (
+        !contenidoQr ||
+        qrProcesado
+      ) {
+        return;
+      }
+
+      qrProcesado = true;
+
+      mostrarEstado(
+        "QR detectado correctamente.",
+        "exito"
+      );
+
+      await detenerEscaner();
+
+      mostrarEstado(
+        "Lectura correcta: " + contenidoQr,
+        "exito"
+      );
+
+    }
+
+
+    async function iniciarEscaner() {
+
+      const boton =
+        document.getElementById(
+          "botonActivar"
+        );
+
+      if (!validarParametros()) {
+        return;
+      }
+
+      boton.disabled = true;
+      qrProcesado = false;
+
+      mostrarEstado(
+        "Solicitando permiso para usar la cámara...",
+        "aviso"
+      );
+
+      try {
+
+        await detenerEscaner();
+
+        escanerQr =
+          new Html5Qrcode(
+            "lectorQr"
+          );
+
+        await escanerQr.start(
+
+          {
+            facingMode: {
+              ideal: "environment"
+            }
+          },
+
+          {
+            fps: 10,
+
+            qrbox: function(
+              ancho,
+              alto
+            ) {
+
+              const lado =
+                Math.floor(
+                  Math.min(
+                    ancho,
+                    alto
+                  ) * 0.72
+                );
+
+              return {
+                width: lado,
+                height: lado
+              };
+
+            },
+
+            aspectRatio: 1
+          },
+
+          procesarQrDetectado,
+
+          function() {
+            // Los intentos sin lectura son normales.
+          }
+
+        );
+
+        escanerActivo = true;
+
+        mostrarEstado(
+          "Cámara activa. Acerque el QR al recuadro.",
+          "exito"
+        );
+
+      }
+      catch (error) {
+
+        console.error(
+          "Error al iniciar la cámara:",
+          error
+        );
+
+        mostrarEstado(
+          "No se pudo activar la cámara: " +
+          (
+            error &&
+            error.message
+              ? error.message
+              : String(error)
+          ),
+          "error"
+        );
+
+        boton.disabled = false;
+
+      }
+
+    }
+
+
+    document
+      .getElementById(
+        "botonActivar"
+      )
+      .addEventListener(
+        "click",
+        iniciarEscaner
+      );
+
+
+    window.addEventListener(
+      "beforeunload",
+      detenerEscaner
+    );
+
+
+    const parametrosValidos =
+      validarParametros();
+
+
+    if (!parametrosValidos) {
+
+      document
+        .getElementById(
+          "botonActivar"
+        )
+        .disabled = true;
+
+    }
+
+  </script>
+
+</body>
+
+</html>
