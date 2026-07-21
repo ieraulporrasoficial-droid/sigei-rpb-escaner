@@ -81,6 +81,37 @@
       opacity: 0.6;
       cursor: not-allowed;
     }
+    .acciones-finales {
+
+  display: none;
+
+  gap: 12px;
+
+  margin-top: 16px;
+
+}
+
+.acciones-finales.visible {
+
+  display: grid;
+
+}
+
+.boton-volver-portal {
+
+  background: #2563eb;
+
+  color: #ffffff;
+
+}
+
+.boton-cerrar-sesion {
+
+  background: #dc2626;
+
+  color: #ffffff;
+
+}
 
     .estado,
     .datos {
@@ -154,6 +185,29 @@
       >
         Pulse “Activar cámara” para iniciar.
       </div>
+      <div
+  id="accionesFinales"
+  class="acciones-finales"
+>
+
+  <button
+    id="botonVolverPortal"
+    class="boton-volver-portal"
+    type="button"
+  >
+    Volver al portal
+  </button>
+
+
+  <button
+    id="botonCerrarSesion"
+    class="boton-cerrar-sesion"
+    type="button"
+  >
+    Cerrar sesión
+  </button>
+
+</div>
 
     </section>
 
@@ -294,6 +348,61 @@
       escanerActivo = false;
 
     }
+    function mostrarAccionesFinales() {
+
+  const acciones =
+    document.getElementById(
+      "accionesFinales"
+    );
+
+  const botonCerrarSesion =
+    document.getElementById(
+      "botonCerrarSesion"
+    );
+
+  if (
+    !acciones ||
+    !botonCerrarSesion
+  ) {
+    return;
+  }
+
+  if (
+    tipoRegistro === "SALIDA"
+  ) {
+
+    botonCerrarSesion.style.display =
+      "block";
+
+  }
+  else {
+
+    botonCerrarSesion.style.display =
+      "none";
+
+  }
+
+  acciones.classList.add(
+    "visible"
+  );
+
+}
+
+
+function volverAlPortal() {
+
+  window.close();
+
+}
+
+
+function solicitarCierreSesion() {
+
+  alert(
+    "Aquí luego conectaremos el cierre de sesión con el portal."
+  );
+
+}
 
 
 async function procesarQrDetectado(
@@ -453,6 +562,7 @@ async function procesarQrDetectado(
       "exito"
 
     );
+    mostrarAccionesFinales();
 
   }
   catch (error) {
@@ -593,6 +703,25 @@ async function procesarQrDetectado(
         "click",
         iniciarEscaner
       );
+
+    document
+  .getElementById(
+    "botonVolverPortal"
+  )
+  .addEventListener(
+    "click",
+    volverAlPortal
+  );
+
+
+document
+  .getElementById(
+    "botonCerrarSesion"
+  )
+  .addEventListener(
+    "click",
+    solicitarCierreSesion
+  );
 
 
     window.addEventListener(
