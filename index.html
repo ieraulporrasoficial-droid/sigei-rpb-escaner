@@ -398,9 +398,73 @@ function volverAlPortal() {
 
 function solicitarCierreSesion() {
 
-  alert(
-    "Aquí luego conectaremos el cierre de sesión con el portal."
+  const botonCerrarSesion =
+    document.getElementById(
+      "botonCerrarSesion"
+    );
+
+  if (botonCerrarSesion) {
+
+    botonCerrarSesion.disabled =
+      true;
+
+    botonCerrarSesion.textContent =
+      "Cerrando sesión...";
+
+  }
+
+
+  if (
+    window.opener &&
+    !window.opener.closed
+  ) {
+
+    window.opener.postMessage(
+
+      {
+        origen:
+          "SIGEI_ESCANER_QR",
+
+        accion:
+          "cerrarSesion"
+      },
+
+      "https://script.google.com"
+
+    );
+
+    window.setTimeout(
+
+      function() {
+
+        window.close();
+
+      },
+
+      700
+
+    );
+
+    return;
+
+  }
+
+
+  mostrarEstado(
+    "No fue posible comunicarse con el portal. Regrese al portal para cerrar la sesión.",
+    "error"
   );
+
+
+  if (botonCerrarSesion) {
+
+    botonCerrarSesion.disabled =
+      false;
+
+    botonCerrarSesion.textContent =
+      "Cerrar sesión";
+
+  }
 
 }
 
