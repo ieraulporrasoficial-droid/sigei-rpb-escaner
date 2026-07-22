@@ -1,66 +1,56 @@
 const TEMAS = {
 
-  institucional(colores) {
+institucional(colores) {
 
-    document.documentElement.style.setProperty(
-      "--fondo-encabezado",
-      colores.principal || "#0FA958"
-    );
+  document.documentElement.style.setProperty(
+    "--fondo-encabezado-completo",
+    colores.principal || "#0FA958"
+  );
 
-    document.documentElement.style.setProperty(
-      "--imagen-encabezado",
-      "none"
-    );
+}
 
-  },
+tecnologia(colores) {
 
-  tecnologia(colores) {
+  const principal =
+    colores.principal || "#0FA958";
 
-    const principal =
-      colores.principal || "#0FA958";
+  const secundario =
+    colores.secundario || "#FFD600";
 
-    const secundario =
-      colores.secundario || "#FFD600";
+  const fondoTecnologico = `
+    linear-gradient(
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 15% 25%,
+      ${secundario}55 0 3px,
+      transparent 4px
+    ),
+    radial-gradient(
+      circle at 85% 70%,
+      ${secundario}55 0 3px,
+      transparent 4px
+    ),
+    linear-gradient(
+      135deg,
+      ${principal} 0%,
+      #087A48 52%,
+      #043F2A 100%
+    )
+  `;
 
-    document.documentElement.style.setProperty(
-      "--fondo-encabezado",
-      `linear-gradient(
-        135deg,
-        ${principal} 0%,
-        #087A48 55%,
-        #043F2A 100%
-      )`
-    );
+  document.documentElement.style.setProperty(
+    "--fondo-encabezado-completo",
+    fondoTecnologico
+  );
 
-    document.documentElement.style.setProperty(
-      "--imagen-encabezado",
-      `
-        linear-gradient(
-          rgba(255, 255, 255, 0.05) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255, 255, 255, 0.05) 1px,
-          transparent 1px
-        ),
-        radial-gradient(
-          circle at 15% 25%,
-          ${secundario}33 0 2px,
-          transparent 3px
-        ),
-        radial-gradient(
-          circle at 85% 70%,
-          ${secundario}33 0 2px,
-          transparent 3px
-        )
-      `
-    );
-
-  }
-
-};
-
+}
 
 function aplicarTema() {
 
