@@ -5,8 +5,8 @@ const SIGEI = {
     BASE:
       "https://script.google.com/macros/s/AKfycbzt8cODEG3Yivg_-RT9CegcHFc3mpJGwX9aOnJQ1OIiqBQxfwAHtcwb3TljtxLQBdH0/exec",
 
-    CONFIGURACION:
-      "?api=configuracion"
+   CONFIGURACION:
+      "?api=configuracion",
       
     MODULOS:
   "?api=modulos"
