@@ -170,14 +170,7 @@ BASE:
     const datos = await respuesta.json();
 
     SIGEI.CONFIG = datos;
-    document.getElementById("loader").style.display = "none";
-
-document.getElementById("app").style.display = "block";
-
-document.getElementById("app").innerHTML = `
-  <h1>SIGEI-RPB</h1>
-  <p>Conexión con Apps Script exitosa.</p>
-`;
+   renderizarAplicacion();
 
     console.log(
       "Configuración recibida:",
@@ -203,6 +196,86 @@ console.log(
 );
 
 cargarConfiguracion();
+  function renderizarAplicacion() {
+
+  aplicarTema();
+
+  renderizarEncabezado();
+
+  mostrarAplicacion();
+
+}
+
+
+function aplicarTema() {
+
+  const configuracion = SIGEI.CONFIG?.datos;
+
+  if (!configuracion || !configuracion.colores) {
+    return;
+  }
+
+  const colores = configuracion.colores;
+
+  document.documentElement.style.setProperty(
+    "--color-principal",
+    colores.principal || "#0FA958"
+  );
+
+  document.documentElement.style.setProperty(
+    "--color-secundario",
+    colores.secundario || "#FFD600"
+  );
+
+  document.documentElement.style.setProperty(
+    "--color-fondo",
+    colores.fondo || "#FFFFFF"
+  );
+
+  document.documentElement.style.setProperty(
+    "--color-texto",
+    colores.texto || "#222222"
+  );
+
+}
+
+
+function renderizarEncabezado() {
+
+  const configuracion = SIGEI.CONFIG?.datos;
+
+  if (!configuracion) {
+    return;
+  }
+
+  const app = document.getElementById("app");
+
+  app.innerHTML = `
+    <header>
+      <h1>${configuracion.nombreSistema || "SIGEI-RPB"}</h1>
+      <p>${configuracion.nombreInstitucion || ""}</p>
+      <p>${configuracion.lema || ""}</p>
+    </header>
+  `;
+
+}
+
+
+function mostrarAplicacion() {
+
+  const loader = document.getElementById("loader");
+  const app = document.getElementById("app");
+
+  loader.style.display = "none";
+
+  app.style.display = "block";
+
+  app.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+}
 
 </script>
 
