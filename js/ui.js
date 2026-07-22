@@ -207,119 +207,25 @@ function renderizarContenido() {
 
         <section class="seccion-modulos">
 
-          <div class="seccion-modulos-encabezado">
+         <div class="seccion-modulos-encabezado">
 
-            <p class="seccion-modulos-etiqueta">
-              Plataforma institucional
-            </p>
+  <p class="seccion-modulos-etiqueta">
+    Plataforma institucional
+  </p>
 
-            <h2 class="seccion-modulos-titulo">
-              Módulos disponibles
-            </h2>
+  <h2 class="seccion-modulos-titulo">
+    Módulos disponibles
+  </h2>
 
-            <p class="seccion-modulos-descripcion">
-              Selecciona el servicio institucional que deseas utilizar.
-            </p>
+  <p class="seccion-modulos-descripcion">
+    Selecciona el servicio institucional que deseas utilizar.
+  </p>
 
-          </div>
-
-          <div class="rejilla-modulos">
-
-            <article class="tarjeta-modulo">
-
-              <div class="tarjeta-modulo-icono" aria-hidden="true">
-  <span class="material-symbols-rounded">
-    schedule
-  </span>
 </div>
 
-              <div class="tarjeta-modulo-contenido">
+<div class="rejilla-modulos modulos-grid"></div>
 
-                <h3 class="tarjeta-modulo-titulo">
-                  Asistencia del Personal
-                </h3>
-
-                <p class="tarjeta-modulo-descripcion">
-                  Registro institucional de ingreso y salida del personal.
-                </p>
-
-              </div>
-
-              <a
-                class="tarjeta-modulo-enlace"
-                href="https://script.google.com/macros/s/AKfycbzt8cODEG3Yivg_-RT9CegcHFc3mpJGwX9aOnJQ1OIiqBQxfwAHtcwb3TljtxLQBdH0/exec"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Ingresar
-              </a>
-
-            </article>
-
-            <article class="tarjeta-modulo">
-
-             <div class="tarjeta-modulo-icono" aria-hidden="true">
-  <span class="material-symbols-rounded">
-    description
-  </span>
-</div>
-
-              <div class="tarjeta-modulo-contenido">
-
-                <h3 class="tarjeta-modulo-titulo">
-                  Portal de Boletas
-                </h3>
-
-                <p class="tarjeta-modulo-descripcion">
-                  Consulta y gestión de boletas institucionales.
-                </p>
-
-              </div>
-
-              <a
-                class="tarjeta-modulo-enlace"
-                href="https://script.google.com/macros/s/AKfycbwauKRgDeQzhkbtgTcc-iUjRKFnKJhAqysL9YsGvIpuxeIIKV_UDZ0SJhTrOX4Iwp8/exec"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Ingresar
-              </a>
-
-            </article>
-
-            <article class="tarjeta-modulo tarjeta-modulo-proximamente">
-
-             <div class="tarjeta-modulo-icono" aria-hidden="true">
-  <span class="material-symbols-rounded">
-    school
-  </span>
-</div>
-
-              <div class="tarjeta-modulo-contenido">
-
-                <div class="tarjeta-modulo-estado">
-                  Próximamente
-                </div>
-
-                <h3 class="tarjeta-modulo-titulo">
-                  Registro Docente SIGIE
-                </h3>
-
-                <p class="tarjeta-modulo-descripcion">
-                  Herramientas digitales para la gestión docente.
-                </p>
-
-              </div>
-
-              <span class="tarjeta-modulo-enlace tarjeta-modulo-enlace-inactivo">
-                No disponible
-              </span>
-
-            </article>
-
-          </div>
-
-        </section>
+</section>
 
       </main>
     `
