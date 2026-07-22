@@ -3,7 +3,7 @@
   --color-secundario: #FFD600;
   --color-fondo: #FFFFFF;
   --color-texto: #222222;
-  --fondo-encabezado: var(--color-principal);
+ --fondo-encabezado-completo: var(--color-principal);
 --imagen-encabezado: none;
 }
 
@@ -67,9 +67,20 @@ body {
 .encabezado-institucional {
   padding: 32px 20px;
   text-align: center;
- background-color: var(--color-principal);
-background-image: var(--imagen-encabezado), var(--fondo-encabezado);
-background-size: 34px 34px, 34px 34px, auto, auto, cover;
+background-color: var(--color-principal);
+background-image: var(--fondo-encabezado-completo);
+background-size:
+  34px 34px,
+  34px 34px,
+  auto,
+  auto,
+  cover;
+background-position:
+  center,
+  center,
+  center,
+  center,
+  center;
   color: #ffffff;
 }
 
