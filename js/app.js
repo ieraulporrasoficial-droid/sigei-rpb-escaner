@@ -7,6 +7,9 @@ const SIGEI = {
 
     CONFIGURACION:
       "?api=configuracion"
+      
+    MODULOS:
+  "?api=modulos"
 
   },
 
