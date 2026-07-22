@@ -1,27 +1,9 @@
 function renderizarAplicacion() {
 
   aplicarTema();
-
   renderizarEncabezado();
-
   renderizarContenido();
-
   mostrarAplicacion();
-
-}
-
-function renderizarContenido() {
-
-  const app = document.getElementById("app");
-
-  app.insertAdjacentHTML(
-    "beforeend",
-    `
-      <main id="contenidoPrincipal">
-
-      </main>
-    `
-  );
 
 }
 
@@ -46,7 +28,10 @@ function construirEncabezado(configuracion) {
   app.innerHTML = `
     <section class="portada-institucional">
 
-      <div class="decoracion-tecnologica" aria-hidden="true"></div>
+      <div
+        class="decoracion-tecnologica"
+        aria-hidden="true"
+      ></div>
 
       <header class="encabezado-institucional">
 
@@ -80,7 +65,10 @@ function construirEncabezado(configuracion) {
             ${configuracion.nombreInstitucion || ""}
           </p>
 
-          <div class="encabezado-separador" aria-hidden="true"></div>
+          <div
+            class="encabezado-separador"
+            aria-hidden="true"
+          ></div>
 
           <p class="encabezado-lema">
             ${configuracion.lema || ""}
@@ -95,37 +83,31 @@ function construirEncabezado(configuracion) {
 
 }
 
-      </div>
 
-      <div class="encabezado-informacion">
+function renderizarContenido() {
 
-        <h1 class="encabezado-titulo">
-          ${configuracion.nombreSistema || "SIGEI-RPB"}
-        </h1>
+  const app = document.getElementById("app");
 
-        <p class="encabezado-institucion">
-          ${configuracion.nombreInstitucion || ""}
-        </p>
-
-        <p class="encabezado-lema">
-          ${configuracion.lema || ""}
-        </p>
-
-      </div>
-
-    </header>
-  `;
+  app.insertAdjacentHTML(
+    "beforeend",
+    `
+      <main id="contenidoPrincipal">
+      </main>
+    `
+  );
 
 }
 
 
 function mostrarAplicacion() {
 
-  const loader = document.getElementById("loader");
-  const app = document.getElementById("app");
+  const loader =
+    document.getElementById("loader");
+
+  const app =
+    document.getElementById("app");
 
   loader.style.display = "none";
-
   app.style.display = "block";
 
   app.setAttribute(
