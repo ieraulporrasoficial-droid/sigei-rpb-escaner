@@ -170,6 +170,14 @@ BASE:
     const datos = await respuesta.json();
 
     SIGEI.CONFIG = datos;
+    document.getElementById("loader").style.display = "none";
+
+document.getElementById("app").style.display = "block";
+
+document.getElementById("app").innerHTML = `
+  <h1>SIGEI-RPB</h1>
+  <p>Conexión con Apps Script exitosa.</p>
+`;
 
     console.log(
       "Configuración recibida:",
