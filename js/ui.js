@@ -1,9 +1,13 @@
 function renderizarAplicacion() {
 
   aplicarTema();
+
   renderizarEncabezado();
-  renderizarModulos();
+
   renderizarContenido();
+
+  renderizarModulos();
+
   mostrarAplicacion();
 
 }
