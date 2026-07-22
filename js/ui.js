@@ -2,6 +2,7 @@ function renderizarAplicacion() {
 
   aplicarTema();
   renderizarEncabezado();
+  renderizarModulos();
   renderizarContenido();
   mostrarAplicacion();
 
@@ -17,6 +18,113 @@ function renderizarEncabezado() {
   }
 
   construirEncabezado(configuracion);
+
+}
+
+function renderizarModulos() {
+
+  const contenedor =
+    document.querySelector(
+      ".modulos-grid"
+    );
+
+  if (!contenedor) {
+
+    console.error(
+      "No se encontró el contenedor .modulos-grid"
+    );
+
+    return;
+
+  }
+
+  if (
+    !Array.isArray(SIGEI.MODULOS) ||
+    SIGEI.MODULOS.length === 0
+  ) {
+
+    contenedor.innerHTML = `
+      <p class="modulos-vacios">
+        No hay módulos disponibles.
+      </p>
+    `;
+
+    return;
+
+  }
+
+  contenedor.innerHTML =
+    SIGEI.MODULOS
+      .map(
+        modulo => {
+
+          const activo =
+            modulo.estado === "ACTIVO";
+
+          const urlValida =
+            modulo.url &&
+            modulo.url !== "vacío";
+
+          return `
+            <article class="modulo-card ${
+              activo
+                ? ""
+                : "modulo-card--inactivo"
+            }">
+
+              <div class="modulo-icono">
+                <span class="material-symbols-rounded">
+                  ${modulo.icono || "apps"}
+                </span>
+              </div>
+
+              ${
+                activo
+                  ? ""
+                  : `
+                    <span class="modulo-estado">
+                      PRÓXIMAMENTE
+                    </span>
+                  `
+              }
+
+              <h3>
+                ${modulo.nombre}
+              </h3>
+
+              <p>
+                ${modulo.descripcion || ""}
+              </p>
+
+              ${
+                activo && urlValida
+                  ? `
+                    <a
+                      class="modulo-boton"
+                      href="${modulo.url}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Ingresar
+                    </a>
+                  `
+                  : `
+                    <button
+                      class="modulo-boton modulo-boton--inactivo"
+                      type="button"
+                      disabled
+                    >
+                      No disponible
+                    </button>
+                  `
+              }
+
+            </article>
+          `;
+
+        }
+      )
+      .join("");
 
 }
 
