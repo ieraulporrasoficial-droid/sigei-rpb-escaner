@@ -90,13 +90,10 @@ function aplicarTema() {
     colores.texto || "#222222"
   );
 
-  const nombreTema =
-    configuracion.temaVisual || "institucional";
+ const nombreTema =
+  configuracion.temaVisual || "institucional";
 
-  const tema =
-    TEMAS[nombreTema] ||
-    TEMAS.institucional;
-
-  tema(colores);
-
-}
+document.documentElement.setAttribute(
+  "data-tema",
+  nombreTema
+);
