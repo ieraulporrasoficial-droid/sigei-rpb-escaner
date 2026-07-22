@@ -70,9 +70,9 @@ function construirEncabezado(configuracion) {
             aria-hidden="true"
           ></div>
 
-          <p class="encabezado-lema">
-            ${configuracion.lema || ""}
-          </p>
+         <p class="encabezado-lema">
+  ${configuracion.eslogan || configuracion.lema || ""}
+</p>
 
         </div>
 
