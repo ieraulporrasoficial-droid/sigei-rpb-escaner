@@ -48,10 +48,15 @@ async function cargarModulos() {
 
   try {
 
-    const respuesta = await fetch(
-      SIGEI.API.BASE +
-      SIGEI.API.MODULOS
-    );
+   const respuesta = await fetch(
+  SIGEI.API.BASE +
+  SIGEI.API.MODULOS +
+  "&t=" +
+  Date.now(),
+  {
+    cache: "no-store"
+  }
+);
 
     if (!respuesta.ok) {
       throw new Error(
