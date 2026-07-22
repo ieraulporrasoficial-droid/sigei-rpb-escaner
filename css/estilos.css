@@ -407,9 +407,4 @@ body {
 
 }
 
-#contenidoPrincipal {
-  width: min(100%, 1100px);
-  margin: 0 auto;
-  padding: 24px 16px 40px;
-}
 
