@@ -4,7 +4,24 @@ function renderizarAplicacion() {
 
   renderizarEncabezado();
 
+  renderizarContenido();
+
   mostrarAplicacion();
+
+}
+
+function renderizarContenido() {
+
+  const app = document.getElementById("app");
+
+  app.insertAdjacentHTML(
+    "beforeend",
+    `
+      <main id="contenidoPrincipal">
+
+      </main>
+    `
+  );
 
 }
 
