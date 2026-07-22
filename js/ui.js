@@ -34,13 +34,50 @@ function renderizarEncabezado() {
     return;
   }
 
+  construirEncabezado(configuracion);
+
+}
+
+
+function construirEncabezado(configuracion) {
+
   const app = document.getElementById("app");
 
   app.innerHTML = `
-    <header>
-      <h1>${configuracion.nombreSistema || "SIGEI-RPB"}</h1>
-      <p>${configuracion.nombreInstitucion || ""}</p>
-      <p>${configuracion.lema || ""}</p>
+    <header class="encabezado-institucional">
+
+      <div class="encabezado-logo">
+
+        ${
+          configuracion.logo
+            ? `
+              <img
+                src="${configuracion.logo}"
+                alt="Logo institucional"
+                class="logo-institucional"
+              >
+            `
+            : ""
+        }
+
+      </div>
+
+      <div class="encabezado-informacion">
+
+        <h1 class="encabezado-titulo">
+          ${configuracion.nombreSistema || "SIGEI-RPB"}
+        </h1>
+
+        <p class="encabezado-institucion">
+          ${configuracion.nombreInstitucion || ""}
+        </p>
+
+        <p class="encabezado-lema">
+          ${configuracion.lema || ""}
+        </p>
+
+      </div>
+
     </header>
   `;
 
