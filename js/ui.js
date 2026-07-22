@@ -116,8 +116,10 @@ function renderizarContenido() {
             <article class="tarjeta-modulo">
 
               <div class="tarjeta-modulo-icono" aria-hidden="true">
-                A
-              </div>
+  <span class="material-symbols-rounded">
+    schedule
+  </span>
+</div>
 
               <div class="tarjeta-modulo-contenido">
 
@@ -144,9 +146,11 @@ function renderizarContenido() {
 
             <article class="tarjeta-modulo">
 
-              <div class="tarjeta-modulo-icono" aria-hidden="true">
-                B
-              </div>
+             <div class="tarjeta-modulo-icono" aria-hidden="true">
+  <span class="material-symbols-rounded">
+    description
+  </span>
+</div>
 
               <div class="tarjeta-modulo-contenido">
 
@@ -173,9 +177,11 @@ function renderizarContenido() {
 
             <article class="tarjeta-modulo tarjeta-modulo-proximamente">
 
-              <div class="tarjeta-modulo-icono" aria-hidden="true">
-                D
-              </div>
+             <div class="tarjeta-modulo-icono" aria-hidden="true">
+  <span class="material-symbols-rounded">
+    school
+  </span>
+</div>
 
               <div class="tarjeta-modulo-contenido">
 
