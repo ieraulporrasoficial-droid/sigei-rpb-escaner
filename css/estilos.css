@@ -226,8 +226,12 @@ body {
     letter-spacing: 0.11em;
   }
 
+}
 
-  .seccion-modulos {
+
+/* MÓDULOS */
+
+.seccion-modulos {
   padding: 10px 0 20px;
 }
 
@@ -386,6 +390,7 @@ body {
   filter: none;
 }
 
+
 @media (max-width: 600px) {
 
   .seccion-modulos-encabezado {
@@ -399,8 +404,6 @@ body {
   .tarjeta-modulo {
     min-height: auto;
   }
-
-}
 
 }
 
