@@ -3,6 +3,8 @@
   --color-secundario: #FFD600;
   --color-fondo: #FFFFFF;
   --color-texto: #222222;
+  --fondo-encabezado: var(--color-principal);
+--imagen-encabezado: none;
 }
 
 * {
@@ -65,7 +67,9 @@ body {
 .encabezado-institucional {
   padding: 32px 20px;
   text-align: center;
-  background: var(--color-principal);
+ background-color: var(--color-principal);
+background-image: var(--imagen-encabezado), var(--fondo-encabezado);
+background-size: 34px 34px, 34px 34px, auto, auto, cover;
   color: #ffffff;
 }
 
