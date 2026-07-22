@@ -158,11 +158,43 @@ BASE:
     }
 
   };
+  async function cargarConfiguracion() {
+
+  try {
+
+    const respuesta = await fetch(
+      SIGEI.API.BASE +
+      SIGEI.API.CONFIGURACION
+    );
+
+    const datos = await respuesta.json();
+
+    SIGEI.CONFIG = datos;
+
+    console.log(
+      "Configuración recibida:",
+      datos
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Error al cargar la configuración:",
+      error
+    );
+
+    SIGEI.ESTADO.error = error;
+
+  }
+
+}
 
 
-  console.log(
-    "SIGEI-RPB iniciado."
-  );
+console.log(
+  "SIGEI-RPB iniciado."
+);
+
+cargarConfiguracion();
 
 </script>
 
