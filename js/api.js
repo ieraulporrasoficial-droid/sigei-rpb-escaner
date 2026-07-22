@@ -42,3 +42,52 @@ async function cargarConfiguracion() {
   }
 
 }
+
+
+async function cargarModulos() {
+
+  try {
+
+    const respuesta = await fetch(
+      SIGEI.API.BASE +
+      SIGEI.API.MODULOS
+    );
+
+    if (!respuesta.ok) {
+      throw new Error(
+        `Error HTTP al cargar módulos: ${respuesta.status}`
+      );
+    }
+
+    const datos = await respuesta.json();
+
+    if (!datos.exito) {
+      throw new Error(
+        datos.mensaje ||
+        "La API de módulos no devolvió una respuesta exitosa."
+      );
+    }
+
+    SIGEI.MODULOS =
+      Array.isArray(datos.datos)
+        ? datos.datos
+        : [];
+
+    console.log(
+      "Módulos recibidos:",
+      SIGEI.MODULOS
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Error al cargar los módulos:",
+      error
+    );
+
+    SIGEI.MODULOS = [];
+    SIGEI.ESTADO.error = error;
+
+  }
+
+}
