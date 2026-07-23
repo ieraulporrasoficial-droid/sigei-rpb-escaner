@@ -28,9 +28,7 @@ function renderizarEncabezado() {
 function renderizarModulos() {
 
   const contenedor =
-    document.querySelector(
-      ".modulos-grid"
-    );
+    document.querySelector(".modulos-grid");
 
   if (!contenedor) {
 
@@ -59,75 +57,79 @@ function renderizarModulos() {
 
   contenedor.innerHTML =
     SIGEI.MODULOS
-      .map(
-        modulo => {
+      .map(modulo => {
 
-          const activo =
-            modulo.estado === "ACTIVO";
+        const activo =
+          modulo.estado === "ACTIVO";
 
-          const urlValida =
-            modulo.url &&
-            modulo.url !== "vacío";
+        const urlValida =
+          modulo.url &&
+          modulo.url !== "vacío";
 
-          return `
-            <article class="modulo-card ${
-              activo
-                ? ""
-                : "modulo-card--inactivo"
-            }">
+        return `
+          <article class="tarjeta-modulo ${
+            activo
+              ? ""
+              : "tarjeta-modulo-proximamente"
+          }">
 
-              <div class="modulo-icono">
-                <span class="material-symbols-rounded">
-                  ${modulo.icono || "apps"}
-                </span>
-              </div>
+            <div
+              class="tarjeta-modulo-icono"
+              aria-hidden="true"
+            >
+              <span class="material-symbols-rounded">
+                ${modulo.icono || "apps"}
+              </span>
+            </div>
+
+            <div class="tarjeta-modulo-contenido">
 
               ${
                 activo
                   ? ""
                   : `
-                    <span class="modulo-estado">
-                      PRÓXIMAMENTE
-                    </span>
+                    <div class="tarjeta-modulo-estado">
+                      Próximamente
+                    </div>
                   `
               }
 
-              <h3>
+              <h3 class="tarjeta-modulo-titulo">
                 ${modulo.nombre}
               </h3>
 
-              <p>
+              <p class="tarjeta-modulo-descripcion">
                 ${modulo.descripcion || ""}
               </p>
 
-              ${
-                activo && urlValida
-                  ? `
-                    <a
-                      class="modulo-boton"
-                      href="${modulo.url}"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Ingresar
-                    </a>
-                  `
-                  : `
-                    <button
-                      class="modulo-boton modulo-boton--inactivo"
-                      type="button"
-                      disabled
-                    >
-                      No disponible
-                    </button>
-                  `
-              }
+            </div>
 
-            </article>
-          `;
+            ${
+              activo && urlValida
+                ? `
+                  <a
+                    class="tarjeta-modulo-enlace"
+                    href="${modulo.url}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ingresar
+                  </a>
+                `
+                : `
+                  <span
+                    class="tarjeta-modulo-enlace
+                           tarjeta-modulo-enlace-inactivo"
+                  >
+                    No disponible
+                  </span>
+                `
+            }
 
-        }
-      )
+          </article>
+        `;
+
+      })
       .join("");
 
 }
