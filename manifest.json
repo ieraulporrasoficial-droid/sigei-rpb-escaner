@@ -1,34 +1,36 @@
 {
   "id": "./",
-  "name": "Sistema Integral de Gestión Educativa Institucional",
+  "name": "SIGEI-RPB - Sistema Integral de Gestión Educativa",
   "short_name": "SIGEI-RPB",
-  "description": "Plataforma institucional para la gestión educativa y el registro de asistencia.",
+  "description": "Plataforma institucional de gestión educativa de la IE 21502-1 Raúl Porras Barrenechea.",
+  "lang": "es-PE",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#075c34",
-  "theme_color": "#075c34",
-  "lang": "es",
-  "categories": [
-    "education",
-    "productivity"
-  ],
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#006b46",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-maskable-512.png",
+      "src": "./icons/maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icons/maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
