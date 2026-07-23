@@ -38,4 +38,13 @@ console.log(
   "SIGEI-RPB iniciado."
 );
 
-cargarConfiguracion();
+async function iniciarAplicacion() {
+
+  await cargarConfiguracion();
+  await cargarModulos();
+
+  renderizarAplicacion();
+
+}
+
+iniciarAplicacion();
